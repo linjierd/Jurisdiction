@@ -1,0 +1,39 @@
+﻿@model Permission.WebManager.Lib.WebModel.SystemManager.UserPassWordUpdate
+@{
+    Layout = "~/Views/Shared/_ShowDialog.cshtml";
+    ViewBag.Title = "修改密码";
+}
+<div class="page_con">
+    @using (Html.BeginForm())
+    {
+        <ul class="list_ul100">
+            <li>
+                <span class="li_tit">登  录  名：</span>
+                <span class="li_con">
+                    @Model.user_name
+                    @Html.HiddenFor(c => c.user_name)
+
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">用户密码：</span>
+                <span class="li_con">
+                    @Html.PasswordFor(c => c.pass_word)
+                    @Html.ValidationMessageFor(c => c.pass_word)
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">验证密码：</span>
+                <span class="li_con">
+                    @Html.PasswordFor(c => c.ConfirmPassword)
+                    @Html.ValidationMessageFor(c => c.ConfirmPassword)
+                </span>
+            </li>
+        </ul>
+        <button type="submit" class="alert_input input_save">保存</button>
+        <button type="button" class="alert_input input_close" onclick="parent.layer.closeAll('iframe');">关闭</button>
+
+
+    }
+
+</div>

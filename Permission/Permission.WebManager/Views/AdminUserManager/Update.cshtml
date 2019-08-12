@@ -1,0 +1,114 @@
+﻿@model Permission.WebManager.Lib.WebModel.SystemManager.AdminUserWebMUpdate
+@{
+    Layout = "~/Views/Shared/_ShowDialog.cshtml";
+    ViewBag.Title = "修改用户";
+    List<string[]> roleList = Permission.Bll.SystemManager.AdminUserBll.Instance.IniRoleNamesAndIds(Model.role_names, Model.role_ids);
+    Model.ConfirmPassword = Model.pass_word;
+}
+<script src="~/Content/lib/select2-4.0.3/dist/js/select2.full.min.js"></script>
+<script src="~/Content/lib/select2-4.0.3/dist/js/i18n/zh-CN.js"></script>
+<link href="~/Content/lib/select2-4.0.3/dist/css/select2.min.css" rel="stylesheet" />
+<div class="page_con">
+    @using (Html.BeginForm())
+    {
+
+        <ul class="list_ul">
+            <li>
+                <span class="li_tit">登  录  名：</span>
+                <span class="li_con">
+                    @Model.user_name
+                    @Html.HiddenFor(c => c.user_name)
+                    @Html.HiddenFor(c => c.ConfirmPassword)
+                    @Html.HiddenFor(c => c.pass_word)
+                </span>
+            </li>
+
+            <li>
+                <span class="li_tit">姓  名：</span>
+                <span class="li_con">
+                    @Html.TextBoxFor(c => c.user_full_name)
+                </span>
+            </li>
+
+
+            <li>
+                <span class="li_tit">是否有效：</span>
+                <span class="li_con">
+                    @Html.RadioButtonTrueOrFlaseReadonlyFor(c => c.user_status, false, null)
+                </span>
+            </li>
+
+            <li>
+                <span class="li_tit">创建人：</span>
+                <span class="li_con">
+                    @Model.creator_name
+                    @Html.HiddenFor(c => c.creator_name)
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">创建时间：</span>
+                <span class="li_con">
+                    @Model.creator_date
+                    @Html.HiddenFor(c => c.creator_date)
+                </span>
+            </li>
+
+            <li>
+                <span class="li_tit">修改人：</span>
+                <span class="li_con">
+                    @Model.modifi_name
+                    @Html.HiddenFor(c => c.modifi_name)
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">修改时间：</span>
+                <span class="li_con">
+                    @Model.modifi_date
+                    @Html.HiddenFor(c => c.modifi_date)
+                </span>
+            </li>
+            <li class="li_con_txt">
+                <span class="li_tit">用户角色：</span>
+                <span class="li_con">
+                    <select id='role_id' style="width:60%;text-align:right;padding-left:5px" multiple='multiple'>
+                       @foreach (var item in roleList)
+                       {
+                        <option value='@item[1]' selected='selected'>@item[0]</option>
+                       }
+                    </select>
+                    <input type='hidden' name='role_names' id='role_names_hid' value='@Model.role_names' />
+                    <input type='hidden' name='role_ids' id='role_id_hid' value='@Model.role_ids' />
+                    @Html.ValidationMessageFor(c => c.role_ids)
+                    <script>
+                        $(document).ready(function () {
+                            $('#role_id').select2({
+                                language: 'zh-CN',
+                                quietMillis: 1000,
+                                minimumInputLength: 0,
+                                maximumInputLength: 10,
+                                ajax: {
+                                    url: '/RoleManager/GetRoleJson',
+                                    dataType: 'json',
+                                    delay: 1000,
+                                    data: function (params) { return { keyWord: params.term, pageIndex: params.page || 1, pageSize: 7 }; },
+                                    processResults: function (data, params) { return { results: data.results, pagination: { more: data.results.length > 0 } }; },
+                                    cache: true
+                                }
+                            }).on('change', function () {
+                                $('#role_id_hid').val($('#role_id').val());
+                                $('#role_names_hid').val($("#role_id").find("option:selected").text());
+                            });
+                        }); </script>
+
+                </span>
+            </li>
+        </ul>
+
+
+        <button type="submit" class="alert_input input_save">保存</button>
+        <button type="button" class="alert_input input_close" onclick="parent.layer.closeAll('iframe');">关闭</button>
+
+
+    }
+
+</div>

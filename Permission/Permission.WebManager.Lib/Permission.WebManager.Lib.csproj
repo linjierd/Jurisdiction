@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2623DD08-B3B3-46E5-9BA5-8C3F35E0D0E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Permission.WebManager.Lib</RootNamespace>
+    <AssemblyName>Permission.WebManager.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\SelectExtensions\DictionarySelectExtensions.cs" />
+    <Compile Include="Helpers\SelectExtensions\DictionaryTypeSelectExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebModel\SystemManager\AdminUserWebM.cs" />
+    <Compile Include="WebModel\SystemManager\DictionaryTypeWebM.cs" />
+    <Compile Include="WebModel\SystemManager\DictionaryWebM.cs" />
+    <Compile Include="WebModel\SystemManager\RoleWebM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Permission.Bll\Permission.Bll.csproj">
+      <Project>{7ac36a69-c04e-4a3c-9723-7639e18f707a}</Project>
+      <Name>Permission.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Permission.Library.Web\Permission.Library.Web.csproj">
+      <Project>{915998c2-08c8-4af8-ba68-2dd43f074987}</Project>
+      <Name>Permission.Library.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Permission.Library\Permission.Library.csproj">
+      <Project>{31ebe0ad-1083-465d-a46c-651decb40b19}</Project>
+      <Name>Permission.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Permission.Model\Permission.Model.csproj">
+      <Project>{0aee556f-da8b-46e9-980a-c1daba8b481f}</Project>
+      <Name>Permission.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "测试列表";
+}
+<script src="~/Content/lib/layer/2.4/layer.js"></script>
+<link href="~/Content/lib/layer/2.4/skin/layer.css" rel="stylesheet" />
+<script src="~/Content/lib/datatables/DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
+<nav class="breadcrumb">
+    <img src="/content/static/images/location_icon_index.png" />
+    @MvcHtmlString.Create(ViewBag.UrlBreadcrumbNavigation) <a class="btn btn-success radius r" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+        <img src="/content/static/images/fanhui.png" />
+    </a>
+</nav>
+
+<div class="page-container">
+    <div class="OM_cen_header" style="height: 110px;" id="filterData">
+        <ul style="width:35%;">
+            <li style="margin-top: 2%">
+                <span style="width: 20%;">测试名:</span>
+                @Html.TextBox("name").ForSearch(SearchMethod.Like)
+            </li>
+           
+        </ul>
+       
+
+       
+
+        <div class="OM_but" style="margin-top: 3.5%; padding-right:5px">
+
+           
+
+            <p class="OM_but_chaxun" style="margin-top: -5px;">
+                <input type="button" class="btn_search" id="gdData_search" value="查询" onclick="search_Oclick()" />
+            </p>
+
+        </div>
+
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort"
+               id="gdData" style="width:100%;border-bottom: 0;">
+            <thead>
+                <tr class="text-c">
+                    <th style="border-bottom: 0;">id</th>
+                    <th style="border-bottom: 0;">测试名</th>
+                  
+
+                    <th style="border-bottom: 0;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-c">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                   
+                </tr>
+            </tbody>
+        </table>
+        <script type="text/javascript">
+
+            function gdData_Search() {
+                var datatable = $('#gdData').DataTable(
+                  {
+                      "responsive": true, "ordering": false, "searching": false, "processing": true,
+                      "pageLength": 2, "serverSide": true, "lengthChange": false, "paging": true,
+                      "pagingType": "full_numbers", "info": true,
+                      "language": { "sProcessing": "处理中...", "sLengthMenu": "显示 _MENU_ 项结果", "sZeroRecords": "没有匹配结果", "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项", "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项", "sEmptyTable": "表中数据为空", "sLoadingRecords": "载入中...", "sInfoThousands": "", "oPaginate": { "sFirst": "首页", "sPrevious": "上页", "sNext": "下页", "sLast": "末页" } },
+                      ajax: {
+                          url: "GetList",
+                          "type": "POST",
+                          data: function (d) {
+                              d.SortName = 'id';
+                              d.SortOrder = 'asc';
+                              return $.extend({}, d, $.filterSerializeJson('#filterData'));
+                          }
+                      }, "columns": [{ "data": "id", "width": "100", "className": "center" },
+                          { "data": "name", "width": "100", "className": "center" },
+                          { "data": "edit", "width": "100", "className": "center" }]
+                  }); return datatable;
+            }
+            (function () { gdData_Search(); })();
+            function search_Oclick() {
+                if (typeof (gdData_search_onClick) == 'function') { if (gdData_search_onClick() === false) { return false; } } if (!$.fn.DataTable.isDataTable('#gdData')) gdData_Search(); else $('#gdData').DataTable().ajax.reload();
+            }
+        </script>
+
+    </div>
+
+    <script>
+        function search() {
+            $("#gdData_search").click();
+        }
+        function openAdd() {
+            openWindow("Add", "添加用户", "900px", "400px", search);
+
+        }
+        function openUpdate(userName) {
+            openWindow("Update?userName=" + userName, "修改用户", "900px", "400px", search);
+
+        }
+        function openUpdatePwd(userName) {
+            openWindow("UpdatePwd?userName=" + userName, "修改密码", "400px", "300px", search);
+
+        }
+
+    </script>
+
+
+
+
+
+</div>
+

@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    @{ 
+        Dictionary<string, object> di = new Dictionary<string, object>();
+        di.Add("style", "width:1000px");
+
+            }
+</head>
+<body>
+    <div> 
+        @Html.DictionarySelect("aaa", "cunit",null, di)
+
+
+        @Html.DictionarySelect("zd", "property")
+
+
+        @Html.DictionarySelect("gysdjdb", "gysdj")
+
+
+      
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\Permission.Library.dll
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\Permission.Library.pdb
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\Newtonsoft.Json.dll
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\System.Web.Mvc.dll
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\Microsoft.Web.Infrastructure.dll
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\Newtonsoft.Json.xml
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\System.Web.Mvc.xml
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\Microsoft.Web.Infrastructure.xml
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\obj\Debug\Permission.Library.dll
+F:\OneDrive\GitHub\Jurisdiction\Jurisdiction\Permission\Permission.Library\obj\Debug\Permission.Library.pdb

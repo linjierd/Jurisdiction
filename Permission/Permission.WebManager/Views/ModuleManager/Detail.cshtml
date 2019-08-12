@@ -1,0 +1,89 @@
+﻿@model Permission.Model.DbModel.System.ModuleDb
+@{
+    Layout = "~/Views/Shared/_ShowDialog.cshtml";
+    bool isEdit = ViewBag.EditType == 2 ? true : false;
+}
+<div class="page_con">
+    @using (Html.BeginForm("Form1"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("isEdit", isEdit)
+        <ul class="list_ul">
+            <li>
+                <span class="li_tit">父模块：</span>
+                <span class="li_con">
+                    @ViewBag.PaterName
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.parent_code)：</span>
+                <span class="li_con">
+                    @Model.parent_code @Html.HiddenFor(c => c.parent_code)
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.module_code)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => Model.module_code, isEdit, null)
+                    @Html.ValidationMessageFor(c => c.module_code)
+                </span>
+            </li>
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.module_name)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => Model.module_name)
+                    @Html.ValidationMessageFor(c => c.modifi_name)
+                </span>
+            </li>
+
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.module_level)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => Model.module_level, true, null)
+                    @Html.ValidationMessageFor(c => c.module_level)
+                </span>
+            </li>
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.is_menu)：</span>
+                <span class="li_con">
+                    @Html.RadioButtonTrueOrFlaseReadonlyFor(c => c.is_menu, false, null)
+                    @Html.ValidationMessageFor(c => c.is_menu)
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.is_action)：</span>
+                <span class="li_con">
+                    @Html.RadioButtonTrueOrFlaseReadonlyFor(c => c.is_action, false, null)
+                    @Html.ValidationMessageFor(c => c.is_action)
+                </span>
+            </li>
+
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.module_status)：</span>
+                <span class="li_con">
+                    @Html.RadioButtonTrueOrFlaseReadonlyFor(c => c.module_status, false, null)
+                </span>
+            </li>
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.order_by)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => c.order_by, false, null)
+
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.action_url)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => c.action_url, false, new Dictionary<string, object> { { "style", "width:200px" } })
+                </span>
+            </li>
+        </ul>
+        <button type="submit" class="alert_input input_save">保存</button>
+        <button type="button" class="alert_input input_close" onclick=" parent.layer.closeAll('iframe'); ">关闭</button>
+    }
+</div>

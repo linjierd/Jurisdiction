@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "模块管理";
+}
+
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+    <script src="~/Content/lib/zTree_v3/js/jquery.ztree.all-3.5.min.js"></script>
+    <link href="~/Content/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <script src="~/Content/lib/layer/2.4/layer.js"></script>
+    <link href="~/Content/lib/layer/2.4/skin/layer.css" rel="stylesheet" />
+<script type="text/javascript">
+	<!--
+    var setting = {
+        async: {
+            enable: true,
+            url: "/ModuleManager/GetSonModule",
+            autoParam: ["id=parentCode"]
+        },
+        view: {
+            addHoverDom: addHoverDom,
+            removeHoverDom: removeHoverDom,
+            selectedMulti: false
+        },
+        data: {
+            keep: {
+                parent: true
+            },
+            simpleData: {
+                enable: true
+            }
+        }
+
+    };
+    // var zNodes = [{ id: 1, pId: 0, name: "parent node 1", open: true },{ id: 2, pId: 1, name: "leaf node 1-2" },{ id: 3, pId: 1, name: "leaf node 1-3" },{ id: 4, pId: 1, name: "leaf node 1-1" }, ];
+    var zNodes =   @MvcHtmlString.Create(ViewBag.Tree);
+
+function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.id).length > 0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.id
+            + "' title='添加子模块' onfocus='this.blur();'></span>" +
+            "<span class='button edit' id='editBtn_" + treeNode.id
+            + "' title='编辑模块' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btnadd = $("#addBtn_" + treeNode.id);
+        if (btnadd) btnadd.bind("click", function () {
+            openWindow("Detail?paterCode=" + treeNode.id, "添加子模块", "800px", "400px",null);
+            // artdialogIfromOpen("Detail?paterCode=" + treeNode.id, '添加子模块',800,800);
+        });
+        var btnedit = $("#editBtn_" + treeNode.id);
+        if (btnedit) btnedit.bind("click", function () {
+            openWindow("Detail?code=" + treeNode.id, "修改模块", "800px", "400px",null);
+        });
+
+        //var btnremove= $("#removeBtn_"+treeNode.id);
+        //if (btnremove) btnremove.bind("click", function () {
+        //    if (confirm("确认删除" + treeNode.name + " 吗？")) {
+        //        var result = onRemove(treeNode.id)
+        //        if (result == "1") {
+        //            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        //            //  var selectnodes = zTree.getSelectedNodes();
+        //            treeObj.removeNode(treeNode);
+        //            alert("删除成功!");
+        //        }
+        //        else {
+        //            alert("删除失败!");
+        //        }
+        //    }
+        //});
+    };
+
+    function onRemove(nodeCode) {
+        var result;
+        LzhAjax.SyncRqeuest("ModuleManage", "Delete", { code: nodeCode }, function (data) {
+            result = data;
+        });
+        return result;
+    }
+
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_" + treeNode.id).unbind().remove();
+        $("#editBtn_" + treeNode.id).unbind().remove();
+        // $("#removeBtn_"+treeNode.id).unbind().remove();
+    };
+
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        //    $("#selectAll").bind("click", selectAll);
+    });
+    //-->
+</script>
+<nav class="breadcrumb">
+    <img src="/content/static/images/location_icon_index.png" />
+    @MvcHtmlString.Create(ViewBag.UrlBreadcrumbNavigation) <a class="btn btn-success radius r" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+        <img src="/content/static/images/fanhui.png" />
+    </a>
+</nav>
+<style type="text/css">
+    .ztree li span.button.add {
+        margin-left: 2px;
+        margin-right: -1px;
+        background-position: -144px 0;
+        vertical-align: top;
+        *vertical-align: middle;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="zTreeDemoBackground left">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model Permission.WebManager.Lib.WebModel.SystemManager.DictionaryTypeWebM
+@{
+    Layout = "~/Views/Shared/_ShowDialog.cshtml";
+    bool isEdit = ViewBag.EditType;
+}
+<div class="page_con">
+    @using (Html.BeginForm("Form1"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("isEdit", isEdit)
+        <ul class="list_ul">
+           
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.dt_type_key)：</span>
+                <span class="li_con">
+                    @if (isEdit)
+                    {
+                        @Model.dt_type_key
+                        @Html.HiddenFor(c=>c.dt_type_key)
+                    }
+                    else
+                    {
+                        @Html.TextReadonlyFor(c => c.dt_type_key, false, null)
+                        @Html.ValidationMessageFor(c => c.dt_type_key)
+                    }
+
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.dt_type_name)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => c.dt_type_name, false, null)
+                    @Html.ValidationMessageFor(c => c.dt_type_name)
+
+                    
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.dt_type_orderby)：</span>
+                <span class="li_con">
+                    @Html.TextReadonlyFor(c => c.dt_type_orderby, false, null)
+                    @Html.ValidationMessageFor(c => c.dt_type_orderby)
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.creator_name)：</span>
+                <span class="li_con">
+                    @Model.creator_name
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.creator_date)：</span>
+                <span class="li_con">
+                    @Model.creator_date
+                </span>
+            </li>
+
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.modifi_date)：</span>
+                <span class="li_con">
+                    @Model.modifi_date
+                 </span>
+            </li>
+
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.modifi_name)：</span>
+                <span class="li_con">
+                    @Model.modifi_name
+                </span>
+            </li>
+            <li>
+                <span class="li_tit">@Html.DisplayNameFor(c => c.dt_type_remark)：</span>
+                <span class="li_con">
+                    @Html.TextareaReadonlyFor(c => c.dt_type_remark, false, null)
+                    @Html.ValidationMessageFor(c => c.dt_type_remark)
+                </span>
+            </li>
+        </ul>
+        <button type="submit" class="alert_input input_save">保存</button>
+        <button type="button" class="alert_input input_close" onclick="parent.layer.closeAll('iframe');">关闭</button>
+    }
+</div>

@@ -1,0 +1,226 @@
+﻿@using Permission.Model.ViewModel;
+@{
+    Layout = null;
+    LoginUserViewModel loginUser = Permission.Bll.SystemManager.AdminUserBll.GetLoginUser();
+    List<LevelModuleViewModel> list = Permission.Bll.SystemManager.AdminUserBll.GetLoginUser().PermissionListLevel;
+    LevelModuleViewModel topParent = new LevelModuleViewModel();
+    List<LevelModuleViewModel> topList = new List<LevelModuleViewModel>();
+    List<LevelModuleViewModel> leftList = new List<LevelModuleViewModel>();
+    LevelModuleViewModel topClick = new LevelModuleViewModel();
+    if (list != null && list.Count > 0)
+    {
+        topParent = list[0];
+        topList = topParent.SonList;
+        if (topList != null && topList.Count > 0)
+        {
+            topClick = topList[0];
+            leftList = topClick.SonList;
+        }
+    }
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <![endif]-->
+
+
+
+    <link rel="stylesheet" type="text/css" href="~/Content/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="~/Content/static/h-ui.admin/css/style.css" />
+
+    <!--_footer 作为公共模版分离出去-->
+    <script src="~/Content/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="~/Content/static/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="~/Content/static/h-ui.admin/js/H-ui.admin.js"></script>
+    <!--/_footer 作为公共模版分离出去-->
+    <!--请在下方写此页面业务相关的脚本-->
+    <script type="text/javascript" src="~/Content/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+    <script src="~/Content/lib/core.js"></script>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+
+    <title>XXX系统——首页</title>
+    <style>
+        #menu-picture dt a:hover {
+            color: #148cf1;
+        }
+
+        .navbar .logo_txt {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding-left: 0;
+            line-height: 95px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar-wrapper">
+        <div class="navbar navbar-fixed-top">
+            <div class="logo logo_txt">@topParent.module_name</div>
+            <div class="header_nav">
+                <ul id="topMenuList">
+                    @{
+                        for (int i = 0; i < topList.Count; i++)
+                        {
+                            string liClass = i == 0 ? "class=bg_nav" : "";
+                            <li @liClass id="li_@topList[i].module_code">
+                                <a href="javascript:void(0)" onclick="topMenuClick('@topList[i].module_code','@topList[i].module_name')">
+                                    <p>@topList[i].module_name</p>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <script>
+                function topMenuClick(code, codeName) {
+                    $("#topClickName").html(codeName);
+                    $("#topMenuList").children("li").removeClass("bg_nav");
+                    $("#li_" + code).addClass("bg_nav");
+                    LzhAjax.ajaxRequest("ModuleManager", "GetLoginUserSonModule", { code: code }, function (data) {
+                        if (data) {
+                            var list = JSON.parse(data);
+                            var leftDiv = $("#leftMenu");
+                            leftDiv.empty()
+                            var html = "";
+                            $.each(list, function (i, item) {
+
+                                if (item.is_menu == 1) {
+                                    html = html + "<dl>";
+                                    if (item.is_action == 1) {
+                                        html = html + " <dt>";
+                                        html = html + ' <a style="text-decoration: none;" data-href="/' + item.action_url + '" data-title="' + item.module_name + '" href="javascript:void(0)">' + item.module_name + '</a> ';
+                                        html = html + "</dt> ";
+                                    }
+                                    else {
+
+                                        html = html + ' <dt>' + item.module_name + '<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>';
+                                    }
+                                    if (item.SonList && item.SonList.length > 0) {
+                                        html = html + "  <dd> ";
+                                        html = html + "<ul>";
+                                        $.each(item.SonList, function (i, sonModel) {
+                                            if (sonModel.is_menu == 1) {
+                                                html = html + ' <li><a data-href="/' + sonModel.action_url + '" data-title="' + sonModel.module_name + '" href="javascript:void(0)">' + sonModel.module_name + '</a></li> ';
+                                            }
+                                            html = html + "    </ul>";
+                                            html = html + " </dd>";
+                                        });
+                                    }
+                                    html = html + "</dl>";
+                                }
+                            });
+                            leftDiv.append(html);
+                            $.Huifold(".menu_dropdown dl dt", ".menu_dropdown dl dd", "fast", 1, "click");
+                        }
+                    });
+                }
+            </script>
+            <div class="header_edit">
+                <a href="/Common/SignOut">
+                    <span>退出</span>
+                    <img src="~/Content/static/images/top_icon_back.png" />
+                </a>
+            </div>
+        </div>
+    </header>
+    <aside class="Hui-aside">
+        <input runat="server" id="divScrollValue" type="hidden" value="" />
+        <div class="index_userinfo">
+            <div class="userinfo_news">
+                <p class="userinfo_name">@loginUser.user_full_name</p>
+                <p class="userinfo_shezhi">
+                    <span style="display: inline-block;margin-left: 10px;"><img src="~/Content/static/images/shezhi.png" /></span>
+                </p>
+            </div>
+        </div>
+        <div class="leftmenu"><img src="~/Content/static/images/navbar_icon_01_n.png" /><span id="topClickName">@topClick.module_name</span></div>
+        <div class="menu_dropdown bk_2" style="clear: both;"  id="leftMenu">
+            @{
+                if (leftList != null && leftList.Count > 0)
+                {
+                    foreach (var leftModel in leftList)
+                    {
+                        if (leftModel.is_menu == 1)
+                        {
+                            <dl>
+                                @if (leftModel.is_action == 1)
+                                {
+                                    <dt>
+                                        <a style="text-decoration: none;" data-href="/@leftModel.action_url" data-title="@leftModel.module_name" href="javascript:void(0)">@leftModel.module_name</a>
+                                    </dt>
+                                }
+                                else
+                                {
+                                    <dt>@leftModel.module_name<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+                                }
+                                @if (leftModel.SonList != null && leftModel.SonList.Count > 0)
+                                {
+                                    <dd>
+                                        <ul>
+
+                                            @foreach (var sonModel in leftModel.SonList)
+                                            {
+                                                if (sonModel.is_menu == 1)
+                                                {
+                                                    <li><a data-href="/@sonModel.action_url" data-title="@sonModel.module_name" href="javascript:void(0)">@sonModel.module_name</a></li>
+
+                                                }
+                                            }
+                                        </ul>
+                                    </dd>
+                                }
+                            </dl>
+                        }
+
+                    }
+                }
+            }
+        </div>
+
+    </aside>
+    <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+    <section class="Hui-article-box">
+        <div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+            <div class="Hui-tabNav-wp">
+                <ul id="min_title_list" class="acrossTab cl">
+                    <li class="active"><span title="我的桌面" data-href="welcome.html">我的桌面</span><em></em></li>
+                </ul>
+            </div>
+            <div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
+        </div>
+        <div id="iframe_box" class="Hui-article">
+            <div class="show_iframe">
+                <div style="display:none" class="loading"></div>
+                <iframe scrolling="yes" frameborder="0" src="welcome.html"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <div class="contextMenu" id="Huiadminmenu">
+        <ul>
+            <li id="closethis">关闭当前 </li>
+            <li id="closeall">关闭全部 </li>
+        </ul>
+    </div>
+
+
+</body>
+</html>
